@@ -473,10 +473,8 @@
 
   /* ═══ WOOD DIVIDER ═══ */
   /* ═══ PARALLAX REVEAL TRANSITION ═══ */
-  .hero {
-    position: relative;
-    z-index: 3;
-  }
+  /* Hero bottom fades to solid black, about-hero top fades from solid black.
+     The about-hero bg image has subtle parallax for depth. No z-index tricks. */
 
   /* ═══ ABOUT ═══ */
   .about {
@@ -490,23 +488,21 @@
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    margin-top: -20vh;
     min-height: 80vh;
     display: flex;
     align-items: center;
     overflow: hidden;
-    z-index: 1;
   }
 
-  /* Gradient that dissolves the top edge into the dark hero space */
+  /* Top-edge dissolve: fades from the dark gap into the image */
   .about-hero::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 40%;
-    background: linear-gradient(180deg, rgba(10,10,10,1) 0%, rgba(10,10,10,0.85) 30%, rgba(10,10,10,0.4) 60%, transparent 100%);
+    height: 35%;
+    background: linear-gradient(180deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.4) 40%, transparent 100%);
     z-index: 1;
     pointer-events: none;
   }
