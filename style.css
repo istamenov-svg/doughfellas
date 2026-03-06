@@ -269,12 +269,16 @@
 
   /* ═══ HERO ═══ */
   .hero {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100vh;
     min-height: 750px;
     display: flex;
     align-items: flex-end;
     overflow: hidden;
+    z-index: 1;
   }
 
   .hero-bg {
@@ -473,8 +477,23 @@
 
   /* ═══ WOOD DIVIDER ═══ */
   /* ═══ PARALLAX REVEAL TRANSITION ═══ */
-  /* Hero bottom fades to solid black, about-hero top fades from solid black.
-     The about-hero bg image has subtle parallax for depth. No z-index tricks. */
+  /* Hero is fixed. Everything after the spacer scrolls over it. */
+
+  .hero-spacer {
+    height: 100vh;
+    min-height: 750px;
+  }
+
+  /* All content after hero scrolls over the fixed pizza image */
+  .about.section-glow,
+  .ingredients.section-glow,
+  .reviews.section-glow,
+  .gallery,
+  footer {
+    position: relative;
+    z-index: 2;
+    background: #0a0a0a;
+  }
 
   /* ═══ ABOUT ═══ */
   .about {
@@ -1765,6 +1784,12 @@
     .hamburger { display: block; }
     .hero-content { padding: 0 1.5rem 4rem; }
     .hero-scroll-indicator { display: none; }
+    /* Disable fixed hero on mobile — revert to normal flow */
+    .hero {
+      position: relative !important;
+      z-index: auto !important;
+    }
+    .hero-spacer { display: none; }
     .hero-overlay {
       background:
         linear-gradient(180deg,
