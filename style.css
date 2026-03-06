@@ -485,11 +485,7 @@
   }
 
   /* All content after hero scrolls over the fixed pizza image */
-  .about.section-glow,
-  .ingredients.section-glow,
-  .reviews.section-glow,
-  .gallery,
-  footer {
+  .page-content {
     position: relative;
     z-index: 2;
     background: #0a0a0a;
@@ -511,6 +507,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    background: #0a0a0a;
   }
 
   /* Top-edge dissolve: fades from the dark gap into the image */
