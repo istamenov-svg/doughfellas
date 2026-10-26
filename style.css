@@ -492,6 +492,7 @@
     margin-top: -1px;
     padding-top: 1px;
     overflow-x: hidden;
+    overflow-x: clip; /* clips sideways only, lets the leading-edge fade show above */
   }
 
   /* ═══ ABOUT ═══ */
@@ -1981,4 +1982,89 @@
     .nav-links a { padding: 0.5rem 0; }
     .menu-item { padding: 1.2rem 0; }
     .mobile-menu a { min-height: 44px; display: flex; align-items: center; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SEAM POLISH: no hard edges between sections or containers
+     ═══════════════════════════════════════════════════════════ */
+
+  /* 1. Ambient oven-glow now lives on the content layer (the solid
+        .page-content background was hiding .ambient-canvas). Fixed
+        attachment keeps it viewport-anchored like the original. */
+  .page-content {
+    background:
+      radial-gradient(ellipse 50% 40% at 0% 30%, rgba(201,58,37,0.04) 0%, transparent 100%),
+      radial-gradient(ellipse 40% 50% at 100% 60%, rgba(201,153,58,0.03) 0%, transparent 100%),
+      radial-gradient(ellipse 60% 30% at 50% 100%, rgba(201,58,37,0.025) 0%, transparent 100%),
+      var(--black);
+    background-attachment: fixed;
+  }
+
+  /* 2. Soft leading edge as content rolls up over the fixed hero */
+  .page-content::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -140px;
+    height: 140px;
+    background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.6) 55%, var(--black) 100%);
+    pointer-events: none;
+  }
+
+  /* 3. Section glows span the full viewport, not the 1300px container
+        (this was the vertical line beside the polaroid) */
+  .section-glow::after {
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+  }
+
+  /* 4. Dough photo fades out at the bottom instead of cutting off */
+  .about-hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.5) 50%, var(--black) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* 5. Alternating #111 sections feather into the base instead of
+        cutting in. Ends are transparent so the ambient glow shows through. */
+  .ingredients,
+  .menu-section,
+  .order-section {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      var(--dark) 160px,
+      var(--dark) calc(100% - 160px),
+      transparent 100%);
+  }
+
+  .gallery {
+    background: linear-gradient(180deg,
+      var(--dark) 0%,
+      var(--dark) calc(100% - 120px),
+      transparent 100%);
+  }
+
+  /* 6. Image break starts from the reviews' #0a0a0a, not #111 */
+  .image-break-overlay {
+    background: linear-gradient(180deg,
+      var(--black) 0%,
+      transparent 18%,
+      transparent 65%,
+      rgba(30,26,22,0.4) 80%,
+      rgba(30,26,22,0.75) 90%,
+      var(--dark) 100%);
+  }
+
+  /* Mobile: hero isn't fixed, so no leading-edge fade needed;
+     fixed backgrounds are unreliable on iOS */
+  @media (max-width: 768px) {
+    .page-content::before { display: none; }
+    .page-content { background-attachment: scroll; }
   }
